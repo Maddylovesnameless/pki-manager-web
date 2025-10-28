@@ -160,9 +160,8 @@ RUN addgroup -g 1001 -S nginx-user && \
 # Copy built frontend
 COPY --from=build-frontend --chown=nginx-user:nginx-user /app/frontend/dist /usr/share/nginx/html
 
-# Copy nginx configurations
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
-COPY docker/nginx-main.conf /etc/nginx/nginx.conf
+# Copy unified nginx configuration
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 # Create necessary directories and set permissions
 RUN mkdir -p /var/cache/nginx/client_temp \

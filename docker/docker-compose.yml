@@ -11,15 +11,6 @@ services:
     environment:
       - KMS_PORT=${KMS_PORT:-9998}
       - RUST_LOG=${KMS_LOG_LEVEL:-info}
-    #ports:
-    #  - "${KMS_EXTERNAL_PORT:-9998}:9998"
-    # Healthcheck disabled - KMS container doesn't have curl/wget
-    #healthcheck:
-    #  test: ["CMD-SHELL", "timeout 1 sh -c '</dev/tcp/localhost/9998' || exit 1"]
-    #  interval: 30s
-    #  timeout: 10s
-    #  retries: 3
-    #  start_period: 10s
     security_opt:
       - no-new-privileges:true
     read_only: false
@@ -32,7 +23,7 @@ services:
       context: ..
       dockerfile: docker/Dockerfile
       target: backend
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-pki-manager}/pki-manager-backend:${IMAGE_TAG:-latest}
+    image: ghcr.io/oriolrius/pki-manager-backend:${IMAGE_TAG:-latest}
     container_name: pki-backend
     restart: unless-stopped
     networks:
@@ -79,7 +70,7 @@ services:
       target: frontend
       args:
         - VITE_API_URL=${VITE_API_URL:-http://localhost:3000/trpc}
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-pki-manager}/pki-manager-frontend:${IMAGE_TAG:-latest}
+    image: ghcr.io/oriolrius/pki-manager-frontend:${IMAGE_TAG:-latest}
     container_name: pki-frontend
     restart: unless-stopped
     networks:
