@@ -53,9 +53,6 @@ function CertificateAuthorities() {
                     Common Name (CN)
                   </th>
                   <th className="px-4 py-3 text-left text-sm font-medium">
-                    Key Algorithm
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium">
                     Certificates Issued
                   </th>
                   <th className="px-4 py-3 text-left text-sm font-medium">
@@ -70,7 +67,7 @@ function CertificateAuthorities() {
                 {casQuery.data.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={5}
+                      colSpan={4}
                       className="px-4 py-8 text-center text-muted-foreground"
                     >
                       No certificate authorities found
@@ -96,15 +93,6 @@ function CertificateAuthorities() {
                         <td className="px-4 py-3">
                           <div className="text-sm font-medium">{commonName}</div>
                           <div className="text-xs text-muted-foreground font-mono truncate max-w-xs">{ca.subject}</div>
-                        </td>
-                        <td className="px-4 py-3">
-                          {ca.keyAlgorithm ? (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium font-mono bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                              {ca.keyAlgorithm}
-                            </span>
-                          ) : (
-                            <span className="text-xs text-muted-foreground">N/A</span>
-                          )}
                         </td>
                         <td className="px-4 py-3">
                           <div className="text-sm font-medium">{ca.certificateCount}</div>

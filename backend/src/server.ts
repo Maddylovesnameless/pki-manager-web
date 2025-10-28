@@ -284,7 +284,7 @@ server.get('/crl/:caId.:format', async (req, reply) => {
 // Start server
 const start = async () => {
   try {
-    const port = 52081; // Fixed port to avoid conflicts
+    const port = parseInt(process.env.PORT || '3000', 10);
     const host = process.env.HOST || '0.0.0.0';
 
     await server.listen({ port, host });

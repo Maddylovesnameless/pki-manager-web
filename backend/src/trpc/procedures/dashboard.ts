@@ -18,6 +18,16 @@ function formatSAN(sanDns: string[] | null, sanIp: string[] | null, sanEmail: st
   return sans.length > 0 ? sans.join(', ') : '-';
 }
 
+// Helper to safely parse JSON with fallback
+function safeJsonParse<T>(value: string | null): T | null {
+  if (!value) return null;
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return null;
+  }
+}
+
 // Helper to format certificate type for display
 function formatCertificateType(type: 'server' | 'client' | 'code_signing' | 'email'): 'Server' | 'Client' | 'Code Signing' | 'Email (S/MIME)' {
   const typeMap = {
@@ -143,9 +153,9 @@ export const dashboardRouter = router({
           type: formatCertificateType(cert.certificateType),
           cn: extractCN(cert.subjectDn),
           san: formatSAN(
-            cert.sanDns ? JSON.parse(cert.sanDns) : null,
-            cert.sanIp ? JSON.parse(cert.sanIp) : null,
-            cert.sanEmail ? JSON.parse(cert.sanEmail) : null
+            safeJsonParse<string[]>(cert.sanDns),
+            safeJsonParse<string[]>(cert.sanIp),
+            safeJsonParse<string[]>(cert.sanEmail)
           ),
           notAfter: cert.notAfter,
           sortKey: cert.notAfter.getTime(),

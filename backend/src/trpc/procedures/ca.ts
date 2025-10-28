@@ -106,7 +106,6 @@ export const caRouter = router({
           id: ca.id,
           subject: ca.subjectDn,
           serialNumber: ca.serialNumber,
-          keyAlgorithm: ca.keyAlgorithm,
           notBefore: ca.notBefore.toISOString(),
           notAfter: ca.notAfter.toISOString(),
           status: computedStatus,

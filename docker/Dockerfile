@@ -28,8 +28,11 @@ COPY backend/package.json ./backend/
 # Copy frontend package files
 COPY frontend/package.json ./frontend/
 
-# Install dependencies (production only)
-RUN pnpm install --frozen-lockfile --prod
+# Install dependencies (production only) with build scripts enabled for better-sqlite3
+RUN pnpm config set scripts-prepend-node-path true && \
+    pnpm install --frozen-lockfile --prod --shamefully-hoist && \
+    cd /app/node_modules/.pnpm/better-sqlite3@*/node_modules/better-sqlite3 && \
+    npm run build-release
 
 ################################################################################
 # Build Backend
@@ -101,7 +104,7 @@ RUN addgroup -g 1001 -S nodejs && \
 # Set working directory
 WORKDIR /app
 
-# Copy production dependencies from dependencies stage
+# Copy production dependencies from dependencies stage (includes built native modules)
 COPY --from=dependencies --chown=nodejs:nodejs /app/node_modules ./node_modules
 COPY --from=dependencies --chown=nodejs:nodejs /app/backend/node_modules ./backend/node_modules
 COPY --from=dependencies --chown=nodejs:nodejs /app/package.json ./
@@ -110,6 +113,13 @@ COPY --from=dependencies --chown=nodejs:nodejs /app/backend/package.json ./backe
 
 # Copy built backend
 COPY --from=build-backend --chown=nodejs:nodejs /app/backend/dist ./backend/dist
+
+# Copy database migrations (SQL files not copied by TypeScript)
+COPY --from=build-backend --chown=nodejs:nodejs /app/backend/src/db/migrations ./backend/dist/db/migrations
+
+# Copy entrypoint script
+COPY --chown=nodejs:nodejs docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Create data directory with proper permissions
 RUN mkdir -p /app/backend/data && \
@@ -133,7 +143,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Use dumb-init to handle signals properly
-ENTRYPOINT ["dumb-init", "--"]
+ENTRYPOINT ["dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
 
 # Start the application
 CMD ["node", "backend/dist/server.js"]
@@ -150,11 +160,17 @@ RUN addgroup -g 1001 -S nginx-user && \
 # Copy built frontend
 COPY --from=build-frontend --chown=nginx-user:nginx-user /app/frontend/dist /usr/share/nginx/html
 
-# Copy nginx configuration
+# Copy nginx configurations
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx-main.conf /etc/nginx/nginx.conf
 
-# Update nginx to run as non-root user
-RUN chown -R nginx-user:nginx-user /var/cache/nginx && \
+# Create necessary directories and set permissions
+RUN mkdir -p /var/cache/nginx/client_temp \
+             /var/cache/nginx/proxy_temp \
+             /var/cache/nginx/fastcgi_temp \
+             /var/cache/nginx/uwsgi_temp \
+             /var/cache/nginx/scgi_temp && \
+    chown -R nginx-user:nginx-user /var/cache/nginx && \
     chown -R nginx-user:nginx-user /var/log/nginx && \
     chown -R nginx-user:nginx-user /etc/nginx/conf.d && \
     touch /var/run/nginx.pid && \
@@ -167,6 +183,6 @@ EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1
+    CMD wget --quiet --tries=1 --spider http://127.0.0.1:8080/health || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]

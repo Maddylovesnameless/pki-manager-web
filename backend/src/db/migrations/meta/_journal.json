@@ -15,6 +15,13 @@
       "when": 1761207297071,
       "tag": "0001_dizzy_mordo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1761676800000,
+      "tag": "0002_minimal_schema",
+      "breakpoints": true
     }
   ]
 }
