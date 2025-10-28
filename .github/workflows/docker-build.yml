@@ -131,9 +131,11 @@ jobs:
           echo "Cleaning up SHA256 digest tags for ${{ matrix.image }}..."
 
           # Get all package versions with sha256- tags
-          PACKAGE_NAME="${{ github.repository }}%2F${{ matrix.image }}"
-          VERSIONS=$(gh api "user/packages/container/${PACKAGE_NAME}/versions" --paginate | \
-            jq -r '.[] | select(.metadata.container.tags) | select(.metadata.container.tags[] | startswith("sha256-")) | .id')
+          # Note: Package path needs proper URL encoding
+          PACKAGE_PATH="pki-manager-web%2F${{ matrix.image }}"
+
+          VERSIONS=$(gh api "user/packages/container/${PACKAGE_PATH}/versions" --paginate 2>&1 | \
+            jq -r 'if type == "array" then .[] | select(.metadata.container.tags) | select(.metadata.container.tags[] | startswith("sha256-")) | .id else empty end' || true)
 
           if [ -z "$VERSIONS" ]; then
             echo "No SHA256 tagged versions to clean up"
@@ -143,7 +145,7 @@ jobs:
           # Delete each version
           echo "$VERSIONS" | while read -r version_id; do
             echo "Deleting version $version_id..."
-            gh api --method DELETE "user/packages/container/${PACKAGE_NAME}/versions/$version_id" && \
+            gh api --method DELETE "user/packages/container/${PACKAGE_PATH}/versions/$version_id" && \
               echo "  ✓ Deleted" || echo "  ✗ Failed"
           done
         env:
